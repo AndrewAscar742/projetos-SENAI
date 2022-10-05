@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class FabricarConexao {
 	
 	public Connection fabricarConexaoMySQL() throws ClassNotFoundException, SQLException {
-		String url = "jdbc:mysql//localhost:3306/armazenamento_boneca?useTimezone=true&serverTimezone=UTC";
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("", "root", "root");
+		String url = "jdbc:mysql://localhost:3307/arm_boneca?useTimezone=true&serverTimezone=UTC";
+		Connection conn = DriverManager.getConnection(url, "root", "");
 		
 		return conn;
 	}

@@ -1,13 +1,13 @@
 package sp.senai.model;
 
 public class Boneca {
+	private int idBoneca;
 	private String nome;
-	private String indicacaoParaUso;
 	private String empresa;
 
-	public Boneca(String nome, String indicacaoParaUso, String empresa) {
+	public Boneca(int idBoneca, String nome, String empresa) {
+		this.idBoneca = idBoneca;
 		this.nome = nome;
-		this.indicacaoParaUso = indicacaoParaUso;
 		this.empresa = empresa;
 	}
 
@@ -19,12 +19,12 @@ public class Boneca {
 		this.nome = nome;
 	}
 
-	public String getIndicacaoParaUso() {
-		return indicacaoParaUso;
+	public int getIdBoneca() {
+		return idBoneca;
 	}
 
-	public void setIndicacaoParaUso(String indicacaoParaUso) {
-		this.indicacaoParaUso = indicacaoParaUso;
+	public void setIdBoneca(int idBoneca) {
+		this.idBoneca = idBoneca;
 	}
 
 	public String getEmpresa() {
@@ -34,9 +34,9 @@ public class Boneca {
 	public void setEmpresa(String empresa) {
 		this.empresa = empresa;
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.nome + " " + this.indicacaoParaUso + " " + this.empresa + "\n";
+		return this.idBoneca + " " + this.nome + " " + this.empresa + "\n";
 	}
 }
