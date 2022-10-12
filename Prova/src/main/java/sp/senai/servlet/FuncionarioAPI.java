@@ -54,7 +54,7 @@ public class FuncionarioAPI extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String json = "";
-		String nome = req.getParameter("idBoneca");
+		int id = Integer.parseInt(req.getParameter("idBoneca"));
 
 		BufferedReader br = req.getReader();
 
@@ -63,22 +63,27 @@ public class FuncionarioAPI extends HttpServlet {
 			json += linha;
 		}
 		Gson gson = new Gson();
-		Boneca boneca = gson.fromJson(json, Boneca.class);
-
-		int index = listaBoneca.indexOf(boneca);
-		if (bancoDeDados.alterar(boneca))
-			listaBoneca.set(index, boneca);
+		Boneca bonecaJSON = gson.fromJson(json, Boneca.class);
+	
+		if ((bancoDeDados.buscarBoneca(id)) != null && bancoDeDados.alterar(bonecaJSON, id)) 
+			System.out.println("Efetuado com sucesso!");
 		else
 			System.err.println("Não foi alterado!");
 
-			resp.getWriter().append("PUT: " + nome + json).append(req.getContextPath());
+			resp.getWriter().append("PUT: " + bonecaJSON.getIdBoneca() + json).append(req.getContextPath());
 	}
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String nome = req.getParameter("nome");
+		String id = req.getParameter("idBoneca");
+		String text = "";
+		
+		if (bancoDeDados.excluir(Integer.parseInt(id)))
+			text = "Excluido com sucesso";
+		else
+			text = "Não houve sucesso";
 
-		resp.getWriter().append("DELETE: ").append(req.getContextPath());
+		resp.getWriter().append("DELETE: " + text).append(req.getContextPath());
 	}
 
 }

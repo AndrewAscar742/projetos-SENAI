@@ -44,18 +44,18 @@ public class BonecaDAO {
 		return listaBoneca;
 	}
 
-	public boolean alterar(Boneca boneca) {
+	public boolean alterar(Boneca boneca, int id) {
 		try {
 			conn = fabricaConexao.fabricarConexaoMySQL();
-			PreparedStatement pstm = conn.prepareStatement("UPDATE boneca SET ?, ? where idBoneca = ?");
+			PreparedStatement pstm = conn.prepareStatement("UPDATE boneca SET nome = ?, empresa = ? where idBoneca = ?", Statement.RETURN_GENERATED_KEYS);
 
 			pstm.setString(1, boneca.getNome());
 			pstm.setString(2, boneca.getEmpresa());
-			pstm.setInt(3, boneca.getIdBoneca());
+			pstm.setInt(3, id);
 
 			pstm.execute();
+			
 			conn.close();
-
 			if (Statement.RETURN_GENERATED_KEYS > 0)
 				return true;
 		} catch (ClassNotFoundException | SQLException e) {
@@ -65,16 +65,16 @@ public class BonecaDAO {
 		return false;
 	}
 
-	public boolean excluir(Boneca boneca) {
+	public boolean excluir(int id) {
 		try {
-			conn = fabricaConexao.fabricarConexaoMySQL();
-			PreparedStatement pstm = conn.prepareStatement("DELETE FROM boneca WHERE idBoneca == ?");
+			Connection conn = fabricaConexao.fabricarConexaoMySQL();
+			PreparedStatement pstm = conn.prepareStatement("DELETE FROM boneca WHERE idBoneca = ?");
 
-			pstm.setInt(1, boneca.getIdBoneca());
+			pstm.setInt(1, id);
 			pstm.execute();
 			
 			conn.close();
-			if (pstm.getUpdateCount() > 0) return true;
+			return true;
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,6 +101,16 @@ public class BonecaDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	
+	public Boneca buscarBoneca(int id) {
+		List<Boneca> listaBoneca = listar();
+		
+		for (Boneca bonecaAux : listaBoneca) {
+			if (bonecaAux.getIdBoneca() == id) return bonecaAux;
+		}
+		return null;
 	}
 	
 
